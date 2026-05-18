@@ -1,0 +1,110 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Main layout */
+.page {
+    display: flex;
+    height: 100vh;
+}
+
+/* LEFT SIDE */
+.left-panel {
+    flex: 1;
+    background-color: #6f3a86; /* dark purple */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.left-panel h1 {
+    font-size: 48px;
+    margin-bottom: 30px;
+}
+
+/* Logo */
+.logo-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.block, .care {
+    padding: 10px 15px;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.block {
+    background: #7ed957;
+    color: black;
+}
+
+.care {
+    background: #c77dff;
+    color: black;
+}
+
+/* Subtitle */
+.subtitle {
+    font-size: 14px;
+}
+
+/* RIGHT SIDE */
+.right-panel {
+    flex: 1;
+    background-color: #d7a6e5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Buttons */
+.btn {
+    width: 200px;
+    padding: 15px;
+    margin: 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+}
+
+.connect {
+    background-color: #9b59b6;
+}
+
+.select {
+    background-color: #8e44ad;
+}
+
+/* Roles section */
+.roles {
+    display: flex;
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.role {
+    text-align: center;
+    cursor: pointer;
+}
+
+.icon {
+    width: 60px;
+    height: 60px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 5px;
+}
