@@ -3,7 +3,8 @@ body {
     font-family: Arial, sans-serif;
 }
 
-/* Landing Page */
+/*   ---------------------   LANDING PAGE   ----------------*/
+
 .page {
     display: flex;
     height: 100vh;
@@ -12,7 +13,7 @@ body {
 /* LEFT SIDE */
 .left-panel {
     flex: 1;
-    background-color: #6f3a86; /* dark purple */
+    background-color: #6f3a86;
     color: white;
     display: flex;
     flex-direction: column;
@@ -27,10 +28,16 @@ body {
 }
 
 /* Logo */
-.logo-box {
+.logo-image {
     display: flex;
     gap: 10px;
     margin-bottom: 10px;
+}
+
+.logo-image img {
+    max-width: 100%;
+    height: auto;
+    display: block;
 }
 
 .block, .care {
@@ -47,11 +54,6 @@ body {
 .care {
     background: #c77dff;
     color: black;
-}
-
-/* Subtitle */
-.subtitle {
-    font-size: 14px;
 }
 
 /* RIGHT SIDE */
@@ -77,15 +79,18 @@ body {
     color: white;
 }
 
+
 .connect {
     background-color: #9b59b6;
 }
 
 .select {
-    background-color: #8e44ad;
+   font-weight:10px;
+   text-align: center;
+   font-size:25px;
 }
 
-/* Roles section */
+/* Roles */
 .roles {
     display: flex;
     gap: 25px;
@@ -95,6 +100,11 @@ body {
 .role {
     text-align: center;
     cursor: pointer;
+}
+
+.role:nth-child(2) .icon {
+    position: relative;
+    left: 20px;
 }
 
 .icon {
@@ -107,4 +117,117 @@ body {
     justify-content: center;
     font-size: 24px;
     margin-bottom: 5px;
+}
+
+
+
+/* GLOBAL HEADER FOR ALL PAGES*/
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+    background: #c7f7b8;
+    border-bottom: 2px solid rgba(0,0,0,0.1);
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-section img {
+    width: 60px;
+    height: 60px;
+}
+
+.welcome-section h2 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.welcome-section p {
+    margin: 5px 0 0;
+    font-size: 14px;
+}
+
+.user-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+}
+
+.logout {
+    padding: 6px 12px;
+    background: #6f3a86;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/*BOTTOM NAV FOR ALL PAGES*/
+
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+}
+
+.nav-item {
+    flex: 1;
+    text-align: center;
+    padding: 15px;
+    background: #9c4dcc;
+    color: white;
+    cursor: pointer;
+}
+
+/* COLOURS */
+.nav-item:nth-child(2) {
+    background: #7e3fbf;
+}
+
+.nav-item:nth-child(3) {
+    background: #5c2d91;
+}
+
+.nav-item.active {
+    border-top: 3px solid white;
+}
+
+/* PAGE THEMES */
+
+.patient-page {
+    background: #d6f5c7;
+}
+
+.medical-page {
+    background: #e6f7ff;
+}
+
+.insurance-page {
+    background: #fff4e6;
+}
+
+/* PAGE COLOURS */
+
+.content {
+    padding: 20px 40px;
+}
+
+.desc {
+    font-size: 15px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    color: #333;
 }
