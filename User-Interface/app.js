@@ -82,6 +82,76 @@ const accessControlABI = [
     }
 ];
 
+const medicalRecordsAddress = "0xD44c2F1a0978CD759df5E25C396e87015c35ABae";
+
+const medicalRecordsABI = [
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "accessAddress",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "patient",
+                "type": "address"
+            },
+            {
+                "internalType": "string",
+                "name": "diagnosis",
+                "type": "string"
+            }
+        ],
+        "name": "addRecord",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "patient",
+                "type": "address"
+            }
+        ],
+        "name": "getRecords",
+        "outputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "string",
+                        "name": "diagnosis",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "doctor",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "timestamp",
+                        "type": "uint256"
+                    }
+                ],
+                "internalType": "struct MedicalRecords.Record[]",
+                "name": "",
+                "type": "tuple[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    }
+];
+
 async function connectWallet() {
     if (typeof window.ethereum === "undefined") {
         alert("MetaMask is not installed.");
@@ -132,6 +202,32 @@ async function getAccessControlContract() {
     return new ethers.Contract(
         accessControlAddress,
         accessControlABI,
+        signer
+    );
+}
+
+async function getMedicalRecordsContract() {
+    if (typeof window.ethereum === "undefined") {
+        alert("MetaMask is not installed.");
+        throw new Error("MetaMask not installed");
+    }
+
+    await switchToGanache();
+
+    const provider = new ethers.BrowserProvider(window.ethereum);
+
+    const code = await provider.getCode(medicalRecordsAddress);
+
+    if (code === "0x") {
+        alert("No MedicalRecords contract found at this address on the current Ganache network. Redeploy MedicalRecords and update medicalRecordsAddress in app.js.");
+        throw new Error("No contract code found at MedicalRecords address");
+    }
+
+    const signer = await provider.getSigner();
+
+    return new ethers.Contract(
+        medicalRecordsAddress,
+        medicalRecordsABI,
         signer
     );
 }
@@ -262,3 +358,47 @@ if (revokeAccessButton) {
 }
 
 displayConnectedWallet();
+
+const addRecordButton = document.getElementById("addRecordButton");
+
+if (addRecordButton) {
+    addRecordButton.addEventListener("click", async () => {
+        const patientAddress = document.getElementById("recordPatientAddress").value.trim();
+        const diagnosis = document.getElementById("diagnosisInput").value.trim();
+
+        if (!patientAddress) {
+            alert("Please enter the patient wallet address.");
+            return;
+        }
+
+        if (!ethers.isAddress(patientAddress)) {
+            alert("Please enter a valid patient Ethereum address.");
+            return;
+        }
+
+        if (!diagnosis) {
+            alert("Please enter diagnosis or treatment notes.");
+            return;
+        }
+
+        try {
+            const contract = await getMedicalRecordsContract();
+
+            const tx = await contract.addRecord(patientAddress, diagnosis);
+
+            alert("Transaction sent. Please confirm in MetaMask.");
+
+            const receipt = await tx.wait();
+
+            if (receipt.status === 1) {
+                alert("Medical record added successfully!");
+            } else {
+                alert("Transaction failed.");
+            }
+
+        } catch (error) {
+            console.error(error);
+            alert("Failed to add medical record. Make sure the patient has granted this doctor access first.");
+        }
+    });
+}
