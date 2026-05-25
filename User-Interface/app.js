@@ -403,100 +403,16 @@ if (addRecordButton) {
     });
 }
 
-
-
-// DISPLAY MEDICAL RECORDS - DYNAMIC FROM DOCTOR
-const medicalContainer =
-    document.getElementById("medicalRecordsContainer");
-
-if (medicalContainer) {
-
-    const medicalRecords =
-        JSON.parse(localStorage.getItem("medicalRecords")) || [];
-
-    medicalRecords.forEach(record => {
-
-        const card = document.createElement("div");
-
-        card.classList.add("record-card");
-
-        card.innerHTML = `
-            <ul>
-
-                <li>
-                    <strong>${record.illness}</strong>
-                </li>
-
-                <li>
-                    ${record.description}
-                </li>
-
-            </ul>
-
-            <div class="wallet-box">
-                Doctor name:
-                ${record.doctorWallet}
-            </div>
-        `;
-
-        medicalContainer.appendChild(card);
-    });
-}
-
-// DISPLAY INSURANCE RECORDS
-const insuranceContainer =
-    document.getElementById("insuranceRecordsContainer");
-
-if (insuranceContainer) {
-
-    const insuranceRecords =
-        JSON.parse(localStorage.getItem("insuranceRecords")) || [];
-
-    insuranceRecords.forEach(record => {
-
-        const card = document.createElement("div");
-
-        card.classList.add("record-card");
-
-        card.innerHTML = `
-            <ul>
-
-                <li>
-                    <strong>
-                        Coverage Status:
-                        ${record.coverage}
-                    </strong>
-                </li>
-
-                <li>
-                    Subsidy Name:
-                    ${record.subsidy}
-                </li>
-
-                <li>
-                    Subsidy Eligibility:
-                    ${record.eligibility}
-                </li>
-
-            </ul>
-
-            <div class="wallet-box">
-                Insurance Company:
-                ${record.companyWallet}
-            </div>
-        `;
-
-        insuranceContainer.appendChild(card);
-    });
-}
-
-// Doctor save medical info button:
+// Doctor save medical info button
 const addMedicalButton =
     document.getElementById("addMedicalButton");
 
 if (addMedicalButton) {
 
     addMedicalButton.addEventListener("click", async () => {
+
+        const patientAddress =
+            document.getElementById("recordPatientAddress").value;
 
         const illness =
             document.getElementById("illnessInput").value;
@@ -512,6 +428,7 @@ if (addMedicalButton) {
         const doctorWallet = accounts[0];
 
         const newRecord = {
+            patientAddress,
             illness,
             description,
             doctorWallet
@@ -531,13 +448,17 @@ if (addMedicalButton) {
     });
 }
 
-//Insurance save button code:
+
+// Insurance save button code
 const addInsuranceButton =
     document.getElementById("addInsuranceButton");
 
 if (addInsuranceButton) {
 
     addInsuranceButton.addEventListener("click", async () => {
+
+        const patientAddress =
+            document.getElementById("insurancePatientAddress").value;
 
         const coverage =
             document.getElementById("coverageInput").value;
@@ -556,6 +477,7 @@ if (addInsuranceButton) {
         const companyWallet = accounts[0];
 
         const newInsuranceRecord = {
+            patientAddress,
             coverage,
             subsidy,
             eligibility,
@@ -576,5 +498,113 @@ if (addInsuranceButton) {
     });
 }
 
+// DISPLAY MEDICAL RECORDS FOR LOGGED IN PATIENT
+const medicalContainer =
+    document.getElementById("medicalRecordsContainer");
 
-//Get Insurance from page
+if (medicalContainer) {
+
+    ethereum.request({
+        method: "eth_accounts"
+    }).then(accounts => {
+
+        const currentPatient = accounts[0];
+
+        const medicalRecords =
+            JSON.parse(localStorage.getItem("medicalRecords")) || [];
+
+        const patientRecords =
+            medicalRecords.filter(record =>
+                record.patientAddress.toLowerCase() ===
+                currentPatient.toLowerCase()
+            );
+
+        patientRecords.forEach(record => {
+
+            const card = document.createElement("div");
+
+            card.classList.add("record-card");
+
+            card.innerHTML = `
+                <ul>
+
+                    <li>
+                        <strong>${record.illness}</strong>
+                    </li>
+
+                    <li>
+                        ${record.description}
+                    </li>
+
+                </ul>
+
+                <div class="wallet-box">
+                    Doctor Wallet:
+                    ${record.doctorWallet}
+                </div>
+            `;
+
+            medicalContainer.appendChild(card);
+        });
+    });
+}
+
+// DISPLAY INSURANCE RECORDS FOR LOGGED IN PATIENT
+const insuranceContainer =
+    document.getElementById("insuranceRecordsContainer");
+
+if (insuranceContainer) {
+
+    ethereum.request({
+        method: "eth_accounts"
+    }).then(accounts => {
+
+        const currentPatient = accounts[0];
+
+        const insuranceRecords =
+            JSON.parse(localStorage.getItem("insuranceRecords")) || [];
+
+        const patientInsurance =
+            insuranceRecords.filter(record =>
+                record.patientAddress.toLowerCase() ===
+                currentPatient.toLowerCase()
+            );
+
+        patientInsurance.forEach(record => {
+
+            const card = document.createElement("div");
+
+            card.classList.add("record-card");
+
+            card.innerHTML = `
+                <ul>
+
+                    <li>
+                        <strong>
+                            Coverage Status:
+                            ${record.coverage}
+                        </strong>
+                    </li>
+
+                    <li>
+                        Subsidy:
+                        ${record.subsidy}
+                    </li>
+
+                    <li>
+                        Eligibility:
+                        ${record.eligibility}
+                    </li>
+
+                </ul>
+
+                <div class="wallet-box">
+                    Insurance Wallet:
+                    ${record.companyWallet}
+                </div>
+            `;
+
+            insuranceContainer.appendChild(card);
+        });
+    });
+}
