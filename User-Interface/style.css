@@ -205,7 +205,7 @@ body {
     border-top: 3px solid white;
 }
 
-/* PAGE THEMES */
+/* PATIENT THEMES */
 
 .patient-page {
     background: #d6f5c7;
@@ -237,8 +237,22 @@ body {
     color: #333;
 }
 
+/*Patient Dashboard -----------------------*/
 
-/*MEDICAL PATIENT*/
+.access-box{
+    padding:10px;
+    margin:25px;
+}
+.access-box button {
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 5px;
+    background-color: #8ED973;
+    border: solid #598d47 1.5px
+}
+
+
+/*MEDICAL PATIENT -----------------------*/
 .medical-section{
     padding:20px;
     background:#c7e6b9;
@@ -285,7 +299,7 @@ body {
 }
 
 
-/*INSURANCE PATIENT PAGE*/
+/*INSURANCE PATIENT PAGE -----------------------*/
 
 .insurance-section{
     padding:20px;
