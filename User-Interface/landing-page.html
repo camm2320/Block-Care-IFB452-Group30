@@ -16,7 +16,7 @@
         <h1>Welcome!</h1>
 
         <div class="logo-image">
-            <img src="Images/logo.png" alt ="Two coloured blocks reading block care">
+            <img src="Images/landing-logo.png" alt ="Two coloured blocks reading block care">
         </div>
     </div>
 
@@ -30,14 +30,16 @@
         <div class="roles">
 
             <div class="role">
-                <a href="dashboard-patient.html"> 
+                <a href="#"
+                onclick="checkRoleAccess('patient', 'dashboard-patient.html')">
                     <img src="Images/patient.png" alt="Cartoon logo of patient" class ="icon">
                 </a>
                 <p>Patient</p>
             </div>
 
              <div class="role">
-                <a href="dashboard-doctor.html"> 
+                <a href="#"
+                onclick="checkRoleAccess('doctor', 'dashboard-doctor.html')">
                     <img src="Images/doctor.png" alt="Cartoon logo of doctor" class ="icon">
                 </a>
                 <p>Medical Specialist</p>
@@ -45,7 +47,8 @@
 
 <!--role code-->
             <div class="role">
-                <a href="dashboard-insurance.html"> 
+                <a href="#"
+                onclick="checkRoleAccess('insurance', 'dashboard-insurance.html')">
                     <img src="Images/insurance-Company-Icon.png" alt="Cartoon logo of shield and heart logo" class ="icon">
                 </a>
                 <p>Insurance Company</p>

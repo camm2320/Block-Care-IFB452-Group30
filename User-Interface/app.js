@@ -364,6 +364,10 @@ const addRecordButton = document.getElementById("addRecordButton");
 if (addRecordButton) {
     addRecordButton.addEventListener("click", async () => {
         const patientAddress = document.getElementById("recordPatientAddress").value.trim();
+        localStorage.setItem(
+    "currentPatientWallet",
+    patientAddress
+);
         const diagnosis = document.getElementById("diagnosisInput").value.trim();
 
         if (!patientAddress) {
@@ -607,4 +611,91 @@ if (insuranceContainer) {
             insuranceContainer.appendChild(card);
         });
     });
+}
+
+// DISPLAY CURRENT PATIENT WALLET
+const currentPatientSpan =
+    document.getElementById("currentPatientWallet");
+
+if (currentPatientSpan) {
+
+    const savedPatient =
+        localStorage.getItem("currentPatientWallet");
+
+    if (savedPatient) {
+        currentPatientSpan.innerText = savedPatient;
+    }
+}
+
+// DISPLAY USER ROLE NAME
+const userName =
+    document.getElementById("userName");
+
+if (userName) {
+
+    ethereum.request({
+        method: "eth_accounts"
+    }).then(accounts => {
+
+       const wallet = accounts[0].toLowerCase();
+
+        // DEMO HARD-CODED ROLE NAMES
+        const names = {
+
+    "0x2975e30ddbbdb74ac36d8924cc0f5f5c4a782f77": "Jimmy (Patient)",
+
+    "0xff45298ef2e0d44f369fa0e79bdeb0219660a7ef": "Dr Sarah",
+
+    "0xeb7262a13e8918fc732a3a1d34710c7f18fb0627": "Health Insurance Co"
+
+};
+
+        userName.innerText =
+            names[wallet] || "User";
+
+    });
+}
+
+// ROLE SECURITY CHECKS
+const roleWallets = {
+
+    patient: [
+        "0x2975e30ddbbdb74ac36d8924cc0f5f5c4a782f77"
+    ],
+
+    doctor: [
+        "0xff45298ef2e0d44f369fa0e79bdeb0219660a7ef"
+    ],
+
+    insurance: [
+        "0xeb7262a13e8918fc732a3a1d34710c7f18fb0627"
+    ]
+};
+
+async function checkRoleAccess(role, dashboardPage) {
+
+    const accounts = await ethereum.request({
+        method: "eth_accounts"
+    });
+
+    if (accounts.length === 0) {
+        alert("Please connect wallet first.");
+        return;
+    }
+
+    const wallet =
+        accounts[0].toLowerCase();
+
+    const allowedWallets =
+        roleWallets[role];
+
+    if (allowedWallets.includes(wallet)) {
+
+        window.location.href = dashboardPage;
+
+    } else {
+
+        window.location.href =
+            "landing-error.html";
+    }
 }

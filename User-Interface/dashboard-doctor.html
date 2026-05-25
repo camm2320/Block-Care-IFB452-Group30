@@ -22,7 +22,7 @@
         </div>
 
         <div class="welcome-section">
-            <h2>Welcome back Jimmy!</h2>
+            <h1>Welcome back <span id="userName">User</span>!</h1>
             <p>Wallet Address: <span id="wallet">0x1234567</span></p>
         </div>
 
@@ -36,13 +36,17 @@
     <hr>
 
 
-<h1> Dashboard Doctor </h1>
-
 
  <section class = "content">
-        <h1> Here is your current access permissions </h1>
-         - 
+        <h1> Doctor Dashboard </h1>
     </section>
+
+    <div class="current-patient-box">
+    Current Patient:
+    <span id="currentPatientWallet">
+        No patient selected
+    </span>
+</div>
 
 
 
@@ -59,5 +63,6 @@
     </div>
 
 </footer>
-
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.1/dist/ethers.umd.min.js"></script>
+<script src="app.js"></script>
 </body>

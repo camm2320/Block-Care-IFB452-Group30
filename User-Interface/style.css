@@ -3,6 +3,11 @@ body {
     font-family: Arial, sans-serif;
 }
 
+.Page-headers {
+    font-size:25px;
+    padding: 0 10px;
+}
+
 /*   ---------------------   LANDING PAGE   ----------------*/
 
 .page {
@@ -27,17 +32,23 @@ body {
     margin-bottom: 30px;
 }
 
-/* Logo */
-.logo-image {
+/* LEFT LOGO SECTION */
+.logo-section {
     display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
+    align-items: center;
+    gap: 15px;
 }
 
-.logo-image img {
-    max-width: 100%;
+.logo {
+    width: 200px;
     height: auto;
-    display: block;
+    flex-shrink: 0;
+}
+
+.logo-section h3 {
+    margin: 0;
+    font-size: 24px;
+    color: #6f3a86;
 }
 
 .block, .care {
@@ -119,8 +130,6 @@ body {
     margin-bottom: 5px;
 }
 
-
-
 /* GLOBAL HEADER FOR ALL PAGES*/
 
 .header {
@@ -139,10 +148,14 @@ body {
 }
 
 .logo-section img {
-    width: 60px;
-    height: 60px;
+    width: 180px;
+    height: 100px;
+    padding-right: 25px;
 }
 
+.welcome-section {
+    padding:5px 15px;
+}
 .welcome-section h2 {
     margin: 0;
     font-size: 22px;
@@ -179,17 +192,24 @@ body {
 .bottom-nav {
     position: fixed;
     bottom: 0;
+    left: 0;
     width: 100%;
+    height: 50px;
     display: flex;
+    z-index: 1000;
 }
 
 .nav-item {
     flex: 1;
-    text-align: center;
-    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background: #9c4dcc;
     color: white;
     cursor: pointer;
+    box-sizing: border-box;
+    font-size: 15px;
+    font-weight: 600;
 }
 
 /* COLOURS */
@@ -201,22 +221,21 @@ body {
     background: #5c2d91;
 }
 
-.nav-item.active {
-    border-top: 3px solid white;
-}
 
-/* PATIENT THEMES */
+
+
+/* PAGE THEMES */
 
 .patient-page {
     background: #d6f5c7;
 }
 
 .medical-page {
-    background: #e6f7ff;
+    background: #82c65f;
 }
 
 .insurance-page {
-    background: #fff4e6;
+    background: #82c65f;
 }
 
 /* PAGE COLOURS */
@@ -226,8 +245,7 @@ body {
 }
 
 .insurance-content {
-    padding: 20px 40px;
-    margin-bottom: 75px;
+    margin-bottom: 50px;
 }
 
 .desc {
@@ -242,6 +260,8 @@ body {
 .access-box{
     padding:10px;
     margin:25px;
+    margin-bottom: 100px;
+    background-color: #82c65f;
 }
 .access-box button {
     padding: 10px;
@@ -254,9 +274,9 @@ body {
 
 /*MEDICAL PATIENT -----------------------*/
 .medical-section{
-    padding:20px;
     background:#c7e6b9;
-    min-height:100vh;
+    min-height:calc(100vh - 65px);
+    padding-bottom:80px;
 }
 
 .medical-section h1{
@@ -302,9 +322,9 @@ body {
 /*INSURANCE PATIENT PAGE -----------------------*/
 
 .insurance-section{
-    padding:20px;
     background:#c7e6b9;
-    min-height:100vh;
+   min-height:calc(100vh - 65px);
+   padding-bottom:80px;
 }
 
 .insurance-section h1{
@@ -344,4 +364,15 @@ body {
     padding:15px 20px;
     border-radius:10px;
     font-size:20px;
+}
+
+
+/*DOCTOR DASHBOARD WALLET CONFIG -----------------------*/ 
+.current-patient-box {
+    background: #c7f7b8;
+    padding: 15px;
+    margin: 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 18px;
 }
