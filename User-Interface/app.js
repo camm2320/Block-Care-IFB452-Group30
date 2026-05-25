@@ -627,31 +627,75 @@ if (currentPatientSpan) {
     }
 }
 
-
 // DISPLAY USER ROLE NAME
 const userName =
     document.getElementById("userName");
 
 if (userName) {
 
-    const accounts =
-        await ethereum.request({
-            method: "eth_accounts"
-        });
+    ethereum.request({
+        method: "eth_accounts"
+    }).then(accounts => {
 
-    const wallet = accounts[0];
+       const wallet = accounts[0].toLowerCase();
 
-    // DEMO HARD-CODED ROLE NAMES - add ganache addresses
-    const names = {
+        // DEMO HARD-CODED ROLE NAMES
+        const names = {
 
-        "0x2975E30dDbbdb74aC36D8924Cc0f5F5c4A782f77": "Jimmy (Patient)",
+    "0x2975e30ddbbdb74ac36d8924cc0f5f5c4a782f77": "Jimmy (Patient)",
 
-        "0xff45298EF2E0D44F369Fa0e79Bdeb0219660A7ef": "Dr Sarah",
+    "0xff45298ef2e0d44f369fa0e79bdeb0219660a7ef": "Dr Sarah",
 
-        "0xeB7262A13E8918FC732A3A1d34710c7F18FB0627": "Health Insurance Co"
+    "0xeb7262a13e8918fc732a3a1d34710c7f18fb0627": "Health Insurance Co"
 
-    };
+};
 
-    userName.innerText =
-        names[wallet] || "User";
+        userName.innerText =
+            names[wallet] || "User";
+
+    });
+}
+
+// ROLE SECURITY CHECKS
+const roleWallets = {
+
+    patient: [
+        "0x2975e30ddbbdb74ac36d8924cc0f5f5c4a782f77"
+    ],
+
+    doctor: [
+        "0xff45298ef2e0d44f369fa0e79bdeb0219660a7ef"
+    ],
+
+    insurance: [
+        "0xeb7262a13e8918fc732a3a1d34710c7f18fb0627"
+    ]
+};
+
+async function checkRoleAccess(role, dashboardPage) {
+
+    const accounts = await ethereum.request({
+        method: "eth_accounts"
+    });
+
+    if (accounts.length === 0) {
+        alert("Please connect wallet first.");
+        return;
+    }
+
+    const wallet =
+        accounts[0].toLowerCase();
+
+    const allowedWallets =
+        roleWallets[role];
+
+    if (allowedWallets.includes(wallet)) {
+
+        window.location.href = dashboardPage;
+
+    } else {
+
+        window.location.href =
+            "landing-error.html";
+    }
 }

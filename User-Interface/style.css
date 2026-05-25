@@ -224,7 +224,7 @@ body {
 
 
 
-/* PATIENT THEMES */
+/* PAGE THEMES */
 
 .patient-page {
     background: #d6f5c7;
@@ -261,6 +261,7 @@ body {
     padding:10px;
     margin:25px;
     margin-bottom: 100px;
+    background-color: #82c65f;
 }
 .access-box button {
     padding: 10px;
