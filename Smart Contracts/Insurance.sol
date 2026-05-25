@@ -22,13 +22,11 @@ contract Insurance {
 
     mapping(uint => Claim) public claims;
 
-    // Submit a new insurance claim
     function submitClaim(
         address patient,
         string memory treatment,
         uint amount
     ) public {
-
         claimCount++;
 
         claims[claimCount] = Claim(
@@ -41,29 +39,30 @@ contract Insurance {
         );
     }
 
-    // Approve a claim
     function approveClaim(uint claimId) public {
+        require(claimId > 0 && claimId <= claimCount, "Invalid claim ID");
         claims[claimId].status = ClaimStatus.Approved;
     }
 
-    // Reject a claim
     function rejectClaim(uint claimId) public {
+        require(claimId > 0 && claimId <= claimCount, "Invalid claim ID");
         claims[claimId].status = ClaimStatus.Rejected;
     }
 
-    // View claim details
     function getClaim(uint claimId)
         public
         view
         returns (
-            uint,
-            address,
-            address,
-            string memory,
-            uint,
-            ClaimStatus
+            uint id,
+            address patient,
+            address doctor,
+            string memory treatment,
+            uint amount,
+            ClaimStatus status
         )
     {
+        require(claimId > 0 && claimId <= claimCount, "Invalid claim ID");
+
         Claim memory c = claims[claimId];
 
         return (

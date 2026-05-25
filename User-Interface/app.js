@@ -152,6 +152,117 @@ const medicalRecordsABI = [
     }
 ];
 
+const insuranceAddress = "0x59a7c0478755d2f085Da869FA9eBE4425750921c";
+
+const insuranceABI = [
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "claimId",
+                "type": "uint256"
+            }
+        ],
+        "name": "approveClaim",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "claimCount",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "claimId",
+                "type": "uint256"
+            }
+        ],
+        "name": "getClaim",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "id",
+                "type": "uint256"
+            },
+            {
+                "internalType": "address",
+                "name": "patient",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "doctor",
+                "type": "address"
+            },
+            {
+                "internalType": "string",
+                "name": "treatment",
+                "type": "string"
+            },
+            {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+            },
+            {
+                "internalType": "enum Insurance.ClaimStatus",
+                "name": "status",
+                "type": "uint8"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "claimId",
+                "type": "uint256"
+            }
+        ],
+        "name": "rejectClaim",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "patient",
+                "type": "address"
+            },
+            {
+                "internalType": "string",
+                "name": "treatment",
+                "type": "string"
+            },
+            {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+            }
+        ],
+        "name": "submitClaim",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    }
+];
+
 async function connectWallet() {
     if (typeof window.ethereum === "undefined") {
         alert("MetaMask is not installed.");
@@ -228,6 +339,32 @@ async function getMedicalRecordsContract() {
     return new ethers.Contract(
         medicalRecordsAddress,
         medicalRecordsABI,
+        signer
+    );
+}
+
+async function getInsuranceContract() {
+    if (typeof window.ethereum === "undefined") {
+        alert("MetaMask is not installed.");
+        throw new Error("MetaMask not installed");
+    }
+
+    await switchToGanache();
+
+    const provider = new ethers.BrowserProvider(window.ethereum);
+
+    const code = await provider.getCode(insuranceAddress);
+
+    if (code === "0x") {
+        alert("No Insurance contract found at this address on the current Ganache network. Redeploy Insurance and update insuranceAddress in app.js.");
+        throw new Error("No contract code found at Insurance address");
+    }
+
+    const signer = await provider.getSigner();
+
+    return new ethers.Contract(
+        insuranceAddress,
+        insuranceABI,
         signer
     );
 }
@@ -501,6 +638,150 @@ if (addInsuranceButton) {
         alert("Insurance record added successfully.");
     });
 }
+
+// Insurance submit claim button
+const submitClaimButton = document.getElementById("submitClaimButton");
+
+if (submitClaimButton) {
+    submitClaimButton.addEventListener("click", async () => {
+        const patientAddress = document.getElementById("claimPatientAddress").value.trim();
+        const treatment = document.getElementById("claimTreatment").value.trim();
+        const amount = document.getElementById("claimAmount").value.trim();
+
+        if (!patientAddress || !treatment || !amount) {
+            alert("Please fill in all claim fields.");
+            return;
+        }
+
+        if (!ethers.isAddress(patientAddress)) {
+            alert("Please enter a valid patient address.");
+            return;
+        }
+
+        try {
+            const contract = await getInsuranceContract();
+
+            const tx = await contract.submitClaim(patientAddress, treatment, amount);
+
+            alert("Transaction sent. Please confirm in MetaMask.");
+
+            const receipt = await tx.wait();
+
+            if (receipt.status === 1) {
+                const count = await contract.claimCount();
+                alert("Claim submitted successfully! Claim ID: " + count.toString());
+            } else {
+                alert("Transaction failed.");
+            }
+
+        } catch (error) {
+            console.error(error);
+            alert("Failed to submit claim.");
+        }
+    });
+}
+
+const approveClaimButton = document.getElementById("approveClaimButton");
+
+if (approveClaimButton) {
+    approveClaimButton.addEventListener("click", async () => {
+        const claimId = document.getElementById("claimIdInput").value.trim();
+
+        if (!claimId) {
+            alert("Please enter a claim ID.");
+            return;
+        }
+
+        try {
+            const contract = await getInsuranceContract();
+
+            const tx = await contract.approveClaim(claimId);
+
+            alert("Transaction sent. Please confirm in MetaMask.");
+
+            const receipt = await tx.wait();
+
+            if (receipt.status === 1) {
+                alert("Claim approved successfully!");
+            } else {
+                alert("Transaction failed.");
+            }
+
+        } catch (error) {
+            console.error(error);
+            alert("Failed to approve claim.");
+        }
+    });
+}
+
+const rejectClaimButton = document.getElementById("rejectClaimButton");
+
+if (rejectClaimButton) {
+    rejectClaimButton.addEventListener("click", async () => {
+        const claimId = document.getElementById("claimIdInput").value.trim();
+
+        if (!claimId) {
+            alert("Please enter a claim ID.");
+            return;
+        }
+
+        try {
+            const contract = await getInsuranceContract();
+
+            const tx = await contract.rejectClaim(claimId);
+
+            alert("Transaction sent. Please confirm in MetaMask.");
+
+            const receipt = await tx.wait();
+
+            if (receipt.status === 1) {
+                alert("Claim rejected successfully!");
+            } else {
+                alert("Transaction failed.");
+            }
+
+        } catch (error) {
+            console.error(error);
+            alert("Failed to reject claim.");
+        }
+    });
+}
+
+// Insurance approve claim button
+const viewClaimButton = document.getElementById("viewClaimButton");
+
+if (viewClaimButton) {
+    viewClaimButton.addEventListener("click", async () => {
+        const claimId = document.getElementById("viewClaimIdInput").value.trim();
+        const claimOutput = document.getElementById("claimOutput");
+
+        if (!claimId) {
+            alert("Please enter a claim ID.");
+            return;
+        }
+
+        try {
+            const contract = await getInsuranceContract();
+
+            const claim = await contract.getClaim(claimId);
+
+            const statuses = ["Pending", "Approved", "Rejected"];
+
+            claimOutput.innerHTML =
+                "Claim ID: " + claim[0].toString() + "<br>" +
+                "Patient: " + claim[1] + "<br>" +
+                "Doctor: " + claim[2] + "<br>" +
+                "Treatment: " + claim[3] + "<br>" +
+                "Amount: " + claim[4].toString() + "<br>" +
+                "Status: " + statuses[Number(claim[5])];
+
+        } catch (error) {
+            console.error(error);
+            alert("Failed to view claim.");
+        }
+    });
+}
+
 
 // DISPLAY MEDICAL RECORDS FOR LOGGED IN PATIENT
 const medicalContainer =
