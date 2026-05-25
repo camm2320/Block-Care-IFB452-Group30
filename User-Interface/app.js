@@ -1,6 +1,6 @@
 // IMPORTANT:
 // Replace this every time you redeploy AccessControl.
-const accessControlAddress = "0x721F18ec14204740f6bB150445A62CD482684D85";
+const accessControlAddress = "0x372E0e5f8a5E956B6A9354AcA243e03B2A8F4767";
 
 // Ganache chain ID 1337 = 0x539
 const GANACHE_CHAIN_ID = "0x539";
@@ -82,7 +82,7 @@ const accessControlABI = [
     }
 ];
 
-const medicalRecordsAddress = "0xD44c2F1a0978CD759df5E25C396e87015c35ABae";
+const medicalRecordsAddress = "0x22EE2e891F0c61eb638E93dd3c59AB213e39a18B";
 
 const medicalRecordsABI = [
     {
@@ -402,3 +402,179 @@ if (addRecordButton) {
         }
     });
 }
+
+
+
+// DISPLAY MEDICAL RECORDS - DYNAMIC FROM DOCTOR
+const medicalContainer =
+    document.getElementById("medicalRecordsContainer");
+
+if (medicalContainer) {
+
+    const medicalRecords =
+        JSON.parse(localStorage.getItem("medicalRecords")) || [];
+
+    medicalRecords.forEach(record => {
+
+        const card = document.createElement("div");
+
+        card.classList.add("record-card");
+
+        card.innerHTML = `
+            <ul>
+
+                <li>
+                    <strong>${record.illness}</strong>
+                </li>
+
+                <li>
+                    ${record.description}
+                </li>
+
+            </ul>
+
+            <div class="wallet-box">
+                Doctor name:
+                ${record.doctorWallet}
+            </div>
+        `;
+
+        medicalContainer.appendChild(card);
+    });
+}
+
+// DISPLAY INSURANCE RECORDS
+const insuranceContainer =
+    document.getElementById("insuranceRecordsContainer");
+
+if (insuranceContainer) {
+
+    const insuranceRecords =
+        JSON.parse(localStorage.getItem("insuranceRecords")) || [];
+
+    insuranceRecords.forEach(record => {
+
+        const card = document.createElement("div");
+
+        card.classList.add("record-card");
+
+        card.innerHTML = `
+            <ul>
+
+                <li>
+                    <strong>
+                        Coverage Status:
+                        ${record.coverage}
+                    </strong>
+                </li>
+
+                <li>
+                    Subsidy Name:
+                    ${record.subsidy}
+                </li>
+
+                <li>
+                    Subsidy Eligibility:
+                    ${record.eligibility}
+                </li>
+
+            </ul>
+
+            <div class="wallet-box">
+                Insurance Company:
+                ${record.companyWallet}
+            </div>
+        `;
+
+        insuranceContainer.appendChild(card);
+    });
+}
+
+// Doctor save medical info button:
+const addMedicalButton =
+    document.getElementById("addMedicalButton");
+
+if (addMedicalButton) {
+
+    addMedicalButton.addEventListener("click", async () => {
+
+        const illness =
+            document.getElementById("illnessInput").value;
+
+        const description =
+            document.getElementById("descriptionInput").value;
+
+        const accounts =
+            await ethereum.request({
+                method: "eth_accounts"
+            });
+
+        const doctorWallet = accounts[0];
+
+        const newRecord = {
+            illness,
+            description,
+            doctorWallet
+        };
+
+        const existingRecords =
+            JSON.parse(localStorage.getItem("medicalRecords")) || [];
+
+        existingRecords.push(newRecord);
+
+        localStorage.setItem(
+            "medicalRecords",
+            JSON.stringify(existingRecords)
+        );
+
+        alert("Medical record added successfully.");
+    });
+}
+
+//Insurance save button code:
+const addInsuranceButton =
+    document.getElementById("addInsuranceButton");
+
+if (addInsuranceButton) {
+
+    addInsuranceButton.addEventListener("click", async () => {
+
+        const coverage =
+            document.getElementById("coverageInput").value;
+
+        const subsidy =
+            document.getElementById("subsidyInput").value;
+
+        const eligibility =
+            document.getElementById("eligibilityInput").value;
+
+        const accounts =
+            await ethereum.request({
+                method: "eth_accounts"
+            });
+
+        const companyWallet = accounts[0];
+
+        const newInsuranceRecord = {
+            coverage,
+            subsidy,
+            eligibility,
+            companyWallet
+        };
+
+        const existingInsurance =
+            JSON.parse(localStorage.getItem("insuranceRecords")) || [];
+
+        existingInsurance.push(newInsuranceRecord);
+
+        localStorage.setItem(
+            "insuranceRecords",
+            JSON.stringify(existingInsurance)
+        );
+
+        alert("Insurance record added successfully.");
+    });
+}
+
+
+//Get Insurance from page

@@ -236,3 +236,98 @@ body {
     margin-bottom: 10px;
     color: #333;
 }
+
+
+/*MEDICAL PATIENT*/
+.medical-section{
+    padding:20px;
+    background:#c7e6b9;
+    min-height:100vh;
+}
+
+.medical-section h1{
+    font-size:32px;
+    font-weight:bold;
+    text-decoration:underline;
+    margin-bottom:40px;
+}
+
+.medical-section h2{
+    font-size:24px;
+    font-weight:bold;
+    border-bottom:2px solid #8ba57e;
+    padding-bottom:10px;
+    margin-bottom:20px;
+}
+
+.record-card{
+    background:#d6ebce;
+    border:1px solid #9dbb92;
+    padding:20px;
+    margin-bottom:20px;
+}
+
+.record-card ul{
+    padding-left:20px;
+}
+
+.record-card li{
+    margin-bottom:15px;
+    font-size:20px;
+}
+
+.wallet-box{
+    background:#9bdd7c;
+    display:inline-block;
+    padding:15px 20px;
+    border-radius:10px;
+    font-size:20px;
+}
+
+
+/*INSURANCE PATIENT PAGE*/
+
+.insurance-section{
+    padding:20px;
+    background:#c7e6b9;
+    min-height:100vh;
+}
+
+.insurance-section h1{
+    font-size:32px;
+    font-weight:bold;
+    text-decoration:underline;
+    margin-bottom:40px;
+}
+
+.insurance-section h2{
+    font-size:24px;
+    font-weight:bold;
+    border-bottom:2px solid #8ba57e;
+    padding-bottom:10px;
+    margin-bottom:20px;
+}
+
+.record-card{
+    background:#d6ebce;
+    border:1px solid #9dbb92;
+    padding:20px;
+    margin-bottom:20px;
+}
+
+.record-card ul{
+    padding-left:20px;
+}
+
+.record-card li{
+    margin-bottom:15px;
+    font-size:20px;
+}
+
+.wallet-box{
+    background:#9bdd7c;
+    display:inline-block;
+    padding:15px 20px;
+    border-radius:10px;
+    font-size:20px;
+}
