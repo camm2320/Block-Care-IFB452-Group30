@@ -192,17 +192,24 @@ body {
 .bottom-nav {
     position: fixed;
     bottom: 0;
+    left: 0;
     width: 100%;
+    height: 50px;
     display: flex;
+    z-index: 1000;
 }
 
 .nav-item {
     flex: 1;
-    text-align: center;
-    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background: #9c4dcc;
     color: white;
     cursor: pointer;
+    box-sizing: border-box;
+    font-size: 15px;
+    font-weight: 600;
 }
 
 /* COLOURS */
@@ -214,9 +221,8 @@ body {
     background: #5c2d91;
 }
 
-.nav-item.active {
-    border-top: 3px solid white;
-}
+
+
 
 /* PATIENT THEMES */
 
@@ -225,11 +231,11 @@ body {
 }
 
 .medical-page {
-    background: #e6f7ff;
+    background: #82c65f;
 }
 
 .insurance-page {
-    background: #fff4e6;
+    background: #82c65f;
 }
 
 /* PAGE COLOURS */
@@ -239,8 +245,7 @@ body {
 }
 
 .insurance-content {
-    padding: 20px 40px;
-    margin-bottom: 75px;
+    margin-bottom: 50px;
 }
 
 .desc {
@@ -255,6 +260,7 @@ body {
 .access-box{
     padding:10px;
     margin:25px;
+    margin-bottom: 100px;
 }
 .access-box button {
     padding: 10px;
@@ -267,9 +273,9 @@ body {
 
 /*MEDICAL PATIENT -----------------------*/
 .medical-section{
-    padding:20px;
     background:#c7e6b9;
-    min-height:100vh;
+    min-height:calc(100vh - 65px);
+    padding-bottom:80px;
 }
 
 .medical-section h1{
@@ -315,9 +321,9 @@ body {
 /*INSURANCE PATIENT PAGE -----------------------*/
 
 .insurance-section{
-    padding:20px;
     background:#c7e6b9;
-    min-height:100vh;
+   min-height:calc(100vh - 65px);
+   padding-bottom:80px;
 }
 
 .insurance-section h1{
@@ -357,4 +363,15 @@ body {
     padding:15px 20px;
     border-radius:10px;
     font-size:20px;
+}
+
+
+/*DOCTOR DASHBOARD WALLET CONFIG -----------------------*/ 
+.current-patient-box {
+    background: #c7f7b8;
+    padding: 15px;
+    margin: 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 18px;
 }

@@ -364,6 +364,10 @@ const addRecordButton = document.getElementById("addRecordButton");
 if (addRecordButton) {
     addRecordButton.addEventListener("click", async () => {
         const patientAddress = document.getElementById("recordPatientAddress").value.trim();
+        localStorage.setItem(
+    "currentPatientWallet",
+    patientAddress
+);
         const diagnosis = document.getElementById("diagnosisInput").value.trim();
 
         if (!patientAddress) {
@@ -607,4 +611,47 @@ if (insuranceContainer) {
             insuranceContainer.appendChild(card);
         });
     });
+}
+
+// DISPLAY CURRENT PATIENT WALLET
+const currentPatientSpan =
+    document.getElementById("currentPatientWallet");
+
+if (currentPatientSpan) {
+
+    const savedPatient =
+        localStorage.getItem("currentPatientWallet");
+
+    if (savedPatient) {
+        currentPatientSpan.innerText = savedPatient;
+    }
+}
+
+
+// DISPLAY USER ROLE NAME
+const userName =
+    document.getElementById("userName");
+
+if (userName) {
+
+    const accounts =
+        await ethereum.request({
+            method: "eth_accounts"
+        });
+
+    const wallet = accounts[0];
+
+    // DEMO HARD-CODED ROLE NAMES - add ganache addresses
+    const names = {
+
+        "0x2975E30dDbbdb74aC36D8924Cc0f5F5c4A782f77": "Jimmy (Patient)",
+
+        "0xff45298EF2E0D44F369Fa0e79Bdeb0219660A7ef": "Dr Sarah",
+
+        "0xeB7262A13E8918FC732A3A1d34710c7F18FB0627": "Health Insurance Co"
+
+    };
+
+    userName.innerText =
+        names[wallet] || "User";
 }
