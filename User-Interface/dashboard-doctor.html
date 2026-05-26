@@ -3,16 +3,17 @@
 
 <head>
     <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
     <meta name="author" content="Group 30 - Caelan Millen and Chloe Pham">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Medial Specialist Dashboard | Block Care </title>
+    <title>Doctor / GP Dashboard | Block Care</title>
 </head>
 
-
 <body>
+
     <!-- TOP HEADER -->
     <header class="header">
-    
+
         <div class="logo-section">
             <img src="Images/logo.png" class="logo" alt="BlockCare Logo">
             <div>
@@ -27,51 +28,69 @@
         </div>
 
         <div class="user-section">
-            <img src="Images/doctor.png" class="avatar" alt="User">
+            <img src="Images/doctor.png" class="avatar" alt="Doctor">
             <button class="logout" onclick="window.location.href='landing-page.html'">
-  Log out
-</button>
+                Log out
+            </button>
         </div>
+
     </header>
+
     <hr>
 
+    <section class="content">
+        <h1>Doctor / GP Dashboard</h1>
 
-
- <section class = "content">
-        <h1> Doctor Dashboard </h1>
         <p class="desc">
-        Welcome to the Doctor / GP dashboard. This section allows authorised healthcare providers
-        to interact with patient medical records through blockchain-based smart contract permissions.
+            Welcome to the Doctor / GP dashboard. This section allows authorised healthcare providers
+            to interact with patient medical records through blockchain-based smart contract permissions.
         </p>
 
         <p class="desc">
             Doctors can only add or view patient medical records after the patient has granted access
             through the Access Control Contract. This ensures that sensitive healthcare information is
             only accessed by approved stakeholders.
+        </p>
     </section>
 
-    <div class="current-patient-box">
-    Current Patient:
-    <span id="currentPatientWallet">
-        No patient selected
-    </span>
-</div>
+    <section class="access-box">
+        <h3>Here are your current patients</h3>
+        <hr>
 
+        <ul id="assignedPatientsList">
+            <li>No patients selected</li>
+        </ul>
+    </section>
 
+    <section class="access-box">
+        <h3>Doctor / GP Functions</h3>
+        <hr>
 
+        <p>From this dashboard, doctors can:</p>
 
- <!-- DOCTOR BOTTOM NAV -->
+        <ul>
+            <li>View their connected wallet address.</li>
+            <li>Access the medical information page.</li>
+            <li>Add patient medical records after permission is granted.</li>
+            <li>Submit insurance claim information linked to treatment details.</li>
+        </ul>
+    </section>
+
+    <!-- DOCTOR BOTTOM NAV -->
     <footer class="bottom-nav">
 
-    <div class="nav-item active" onclick="window.location.href='dashboard-doctor.html'">
-        Home
-    </div>
+        <div class="nav-item active" onclick="window.location.href='dashboard-doctor.html'">
+            Home
+        </div>
 
-    <div class="nav-item" onclick="window.location.href='medical-doctor.html'">
-        Medical Info
-    </div>
+        <div class="nav-item" onclick="window.location.href='medical-doctor.html'">
+            Medical Info
+        </div>
 
-</footer>
-<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.1/dist/ethers.umd.min.js"></script>
-<script src="app.js"></script>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.1/dist/ethers.umd.min.js"></script>
+    <script src="app.js"></script>
+
 </body>
+</html>

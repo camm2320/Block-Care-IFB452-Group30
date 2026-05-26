@@ -392,6 +392,91 @@ async function displayConnectedWallet() {
     }
 }
 
+function getAssignedPatients() {
+    return JSON.parse(localStorage.getItem("assignedPatients")) || {};
+}
+
+function saveAssignedPatient(userAddress, patientAddress) {
+    const assignedPatients = getAssignedPatients();
+
+    const userKey = userAddress.toLowerCase();
+    const patientKey = patientAddress.toLowerCase();
+
+    if (!assignedPatients[userKey]) {
+        assignedPatients[userKey] = [];
+    }
+
+    if (!assignedPatients[userKey].includes(patientKey)) {
+        assignedPatients[userKey].push(patientKey);
+    }
+
+    localStorage.setItem(
+        "assignedPatients",
+        JSON.stringify(assignedPatients)
+    );
+}
+
+function removeAssignedPatient(userAddress, patientAddress) {
+    const assignedPatients = getAssignedPatients();
+
+    const userKey = userAddress.toLowerCase();
+    const patientKey = patientAddress.toLowerCase();
+
+    if (!assignedPatients[userKey]) {
+        return;
+    }
+
+    assignedPatients[userKey] = assignedPatients[userKey].filter(
+        patient => patient !== patientKey
+    );
+
+    localStorage.setItem(
+        "assignedPatients",
+        JSON.stringify(assignedPatients)
+    );
+}
+
+async function displayAssignedPatients() {
+    const assignedPatientsList = document.getElementById("assignedPatientsList");
+
+    if (!assignedPatientsList) {
+        return;
+    }
+
+    if (typeof window.ethereum === "undefined") {
+        assignedPatientsList.innerHTML = "<li>MetaMask not installed</li>";
+        return;
+    }
+
+    const accounts = await window.ethereum.request({
+        method: "eth_accounts"
+    });
+
+    if (accounts.length === 0) {
+        assignedPatientsList.innerHTML = "<li>No wallet connected</li>";
+        return;
+    }
+
+    const currentUser = accounts[0].toLowerCase();
+    const assignedPatients = getAssignedPatients();
+    const patients = assignedPatients[currentUser] || [];
+
+    if (patients.length === 0) {
+        assignedPatientsList.innerHTML = "<li>No patients selected</li>";
+        return;
+    }
+
+    assignedPatientsList.innerHTML = "";
+
+    patients.forEach(patient => {
+        const listItem = document.createElement("li");
+        listItem.textContent = patient;
+        assignedPatientsList.appendChild(listItem);
+    });
+}
+
+displayAssignedPatients();
+
 const connectButton = document.getElementById("connectWallet");
 
 if (connectButton) {
@@ -450,9 +535,10 @@ if (grantAccessButton) {
             const accessResult = await contract.hasAccess(patientAddress, doctorAddress);
 
             if (accessResult) {
+                saveAssignedPatient(doctorAddress, patientAddress);
+                displayAssignedPatients();
+
                 alert("Access granted successfully!");
-            } else {
-                alert("Transaction succeeded, but access still returned false. Check addresses.");
             }
         } catch (error) {
             console.error(error);
@@ -486,6 +572,15 @@ if (revokeAccessButton) {
 
             const receipt = await tx.wait();
 
+            const accounts = await window.ethereum.request({
+                method: "eth_accounts"
+            });
+
+            const patientAddress = accounts[0];
+
+            removeAssignedPatient(doctorAddress, patientAddress);
+            displayAssignedPatients();
+
             alert("Access revoked successfully!");
         } catch (error) {
             console.error(error);
@@ -495,6 +590,7 @@ if (revokeAccessButton) {
 }
 
 displayConnectedWallet();
+displayAssignedPatients();
 
 const addRecordButton = document.getElementById("addRecordButton");
 
