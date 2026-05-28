@@ -1,6 +1,6 @@
 // IMPORTANT:
 // Replace this every time you redeploy AccessControl.
-const accessControlAddress = "0x05750E0c93819663F10f7e16524E514B1b3b133a";
+const accessControlAddress = "0x8b248A301E7edc03A04250387ea7012a7B0590cF";
 
 // Ganache chain ID 1337 = 0x539
 const GANACHE_CHAIN_ID = "0x539";
@@ -82,7 +82,7 @@ const accessControlABI = [
     }
 ];
 
-const medicalRecordsAddress = "0x6F14a2b157caCDefAF7d979bed2F2eE036Bb1758";
+const medicalRecordsAddress = "0x08686B380d5bFe151CB108E2a41231d0ECeb204B";
 
 const medicalRecordsABI = [
     {
@@ -152,7 +152,7 @@ const medicalRecordsABI = [
     }
 ];
 
-const insuranceAddress = "0x59a7c0478755d2f085Da869FA9eBE4425750921c";
+const insuranceAddress = "0x568943874EBaC68b2B6Bf1e76d04e1af5fA051c5";
 
 const insuranceABI = [
     {
